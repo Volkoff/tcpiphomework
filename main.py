@@ -28,17 +28,17 @@ def clinet(conn):
                 conn.send('TRANSLATEERR"not in this dictionary"'.encode("utf-8"))
         if str[0] == "TRANSLATEREM":
             try:
-                for i in range(256):
-                    ip = "127.0.0.%d" % i
+                for i in range(1):
+                    ip = "10.2.3.226"
                     for port in range(65530, 65536):
                         try:
-                            print(ip)
-                            print(port)
                             serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                             serv.connect((ip, port))
+                            socket.setdefaulttimeout(0.01)
                             serv.recv(1024)
-                            serv.send('test'.encode('utf-8'))
-                            serv.recv(1024)
+                            serv.send(f'TRANSLATELOC"{str[1]}"'.encode('utf-8'))
+                            message = serv.recv(1024)
+                            conn.send(message)
                             portsOpen.append(port)
                         except Exception as e:
                             print(e)
@@ -47,6 +47,7 @@ def clinet(conn):
                 serv.send(f'TRANSLATELOC"{str[1]}"'.encode('utf-8'))
                 data = serv.recv(1024)
                 conn.send(data)
+                conn.send(message)
                 print(portsOpen)
             except:
                 print("OOF")
@@ -57,7 +58,7 @@ def clinet(conn):
 
 
 welcome_string = "Hey there!!!"
-ip = '127.0.0.1'
+ip = '10.2.3.225'
 port = 65532
 HEADER_LENGTH = 1024
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
