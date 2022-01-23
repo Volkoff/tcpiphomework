@@ -1,0 +1,146 @@
+received from client: TRANSLATEREM"dog"
+Connection Established - 192.168.1.110:64061
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+Hey look! I found it!
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+received from client: addrem
+received from client: TRANSLATEREM"dog"
+Connection Established - 192.168.1.110:64104
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+Hey look! I found it!
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+received from client: addrem
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+Hey look! I found it!
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+received from client: addrem
+Connection Established - 192.168.1.110:64290
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+Hey look! I found it!
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+received from client: addrem
+Connection Established - 192.168.1.110:60481
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+Hey look! I found it!
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+received from client: addrem
+received from client: TRANSLATEREM"dog"
+Connection Established - 192.168.1.110:60522
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+Hey look! I found it!
+can only concatenate str (not "int") to str
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+received from client: addrem
+received from client: TRANSLATEREM"dog"
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+timed out
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+received from client: addrem
+received from client: TRANSLATEREM"dog"
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+Hey look! I found it!
+can only concatenate str (not "int") to str
+[WinError 10061] No connection could be made because the target machine actively refused it
+timed out
+[WinError 10061] No connection could be made because the target machine actively refused it
+received from client: addrem
+received from client: TRANSLATEREM"dog"
+Connection Established - 192.168.1.110:60591
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+Hey look! I found it!
+192.168.1.107:65532
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+received from client: addrem
+received from client: TRANSLATEREM"dog"
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+Hey look! I found it!
+192.168.1.107:65532
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+received from client: addrem
+Connection Established - 192.168.1.110:60677
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+Hey look! I found it!
+192.168.1.107:65532
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+received from client: addrem
+received from client: TRANSLATEREM"dog"
+received from client: TRANSLATELOC"dog"
+threads can only be started once
+received from client: TRANSLATEREM"computer"
+received from client: TRANSLATELOC"dog"
+threads can only be started once
+received from client: TRANSLATEREM"dog"
+Connection Established - 192.168.1.110:60729
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+Hey look! I found it!
+192.168.1.107:65532
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+received from client: addrem
+received from client: TRANSLATEREM"dog"
+threads can only be started once
+received from client: TRANSLATEREM"dog"
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+Hey look! I found it!
+192.168.1.107:65532
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+received from client: addrem
+threads can only be started once
+received from client: TRANSLATEREM"dog"
+Connection Established - 192.168.1.110:60846
+timed out
+[WinError 10061] No connection could be made because the target machine actively refused it
+Hey look! I found it!
+192.168.1.107:65532
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+received from client: addrem
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+Hey look! I found it!
+192.168.1.107:65532
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+[WinError 10061] No connection could be made because the target machine actively refused it
+received from client: addrem
+'Thread' object has no attribute 'exit'
+received from client: TRANSLATEREM"dog"
+threads can only be started once
+received from client: TRANSLATEREM"dog"

@@ -9,6 +9,10 @@ dictionary = {
     "phone" : "mobil"
 }
 
+def log(message):
+    with open('log.txt','a') as file:
+        file.write(message + "\r\n")
+        file.close()
 
 def translateloc(message, conn):
     try:
@@ -17,45 +21,46 @@ def translateloc(message, conn):
         conn.send('TRANSLATEERR"not in this dictionary"\r\n'.encode("utf-8"))
 portsOpen = []
 ipport = []
-def checkipconnect():
-    #for i in range(256):
+
+
+def checkipconnect(portstart,portend,a):
+    #for i in range(a):
         ip = "192.168.1.107"
         print(ip)
-        for port in range(65531, 65533):
-            print(port)
+        for port in range(portstart, portend):
             try:
+
                 serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                serv.settimeout(3)
                 serv.connect((ip, port))
-                serv.settimeout(0.01)
                 serv.recv(1024)
                 serv.send('check'.encode())
                 message = serv.recv(1024)
-                print(type(message))
                 if message.decode('utf-8') == 'hello':
-                    print("hey")
-                    ipport.append(ip + ":" + port)
-                print(ipport)
+                    log("Hey look! I found it!")
+                    log(ip + ":" + str(port))
+                    ipport.append(ip + ":" + str(port))
             except Exception as e:
-                print(e)
+                log(str(e))
 
 
-# def translaterem(conn):
-#     try:
-#         checkipconnect()
-#         serv.connect((ip, portsOpen[0]))
-#         serv.recv(1024)
-#         serv.send(f'TRANSLATELOC"{message[1]}"'.encode('utf-8'))
-#         data = serv.recv(1024)
-#         conn.send(data)
-#         print(portsOpen)
-#     except Exception as e:
-#         print(e)
+def translaterem(conn,message,ip,port):
+    try:
+        serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        serv.connect((ip, port))
+        serv.recv(1024)
+        serv.send(f'TRANSLATELOC"{message[1]}"'.encode('utf-8'))
+        data = serv.recv(1024)
+        conn.send(data)
+        serv.close()
+    except Exception as e:
+        log(str(e))
 
-
+threads = []
 def clinet(conn):
     global running
     running = True
-    print(f"Connection Established - {address[0]}:{address[1]}")
+    log(f"Connection Established - {address[0]}:{address[1]}")
     conn.send(welcome_string.encode())
     while running:
         data = conn.recv(1024)
@@ -68,20 +73,40 @@ def clinet(conn):
             message = data.decode('utf-8')
             message = str(message)
             message = message.split('"')
-            print(message[0])
         except Exception as e:
-            print(e)
-
-        if message[0] == 'check':
+            log(e)
+        if message[0] == 'addrem':
+            conn.send("working... \r\n".encode('utf-8'))
+            checkipconnect(65530,65536,2)
+            conn.send("SUCCESFUL \r\n".encode('utf-8'))
+        elif message[0] == 'check':
             conn.send("hello".encode())
-        if message[0] == "TRANSLATELOC":
+        elif message[0] == "TRANSLATELOC":
             translateloc(message[1],conn)
         elif message[0] == "TRANSLATEREM":
-            checkipconnect()
-            print(message[1])
+            try:
+                for i in range(len(ipport)):
+                    ips = ipport[i]
+                    ips = ips.split(":")
+                    ip = ips[0]
+                    port = ips[1]
+                    port = int(port)
+                    t = threading.Thread(target=translaterem,args=(conn,message,ip,port))
+                    threads.append(t)
+                    for x in threads:
+                        x.start()
+
+                    for x in threads:
+                        x.join()
+
+                    for x in threads:
+                        x.exit()
+            except Exception as e:
+                log(str(e))
         else:
             conn.send("Wrong".encode('utf-8'))
-        print('received from client: %s' % data.decode("utf-8"))
+        log('received from client: %s' % data.decode("utf-8"))
+
 
 
 
