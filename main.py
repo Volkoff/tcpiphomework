@@ -9,6 +9,13 @@ dictionary = {
     "phone" : "mobil"
 }
 
+def translateloc(str,conn):
+    try:
+        conn.send(f'TRANSLATESUC"{dictionary[str[1]]}"\r\n'.encode('utf-8'))
+    except KeyError:
+        conn.send('TRANSLATEERR"not in this dictionary"\r\n'.encode("utf-8"))
+
+
 portsOpen = []
 def clinet(conn):
     global running
@@ -19,24 +26,26 @@ def clinet(conn):
         data = conn.recv(1024)
         if not data or data.decode('utf-8').lower() == 'end':
             break
-        str = data.decode('utf-8')
-        str = str.split('"')
-        if str[0] == "TRANSLATELOC":
+        if data.decode('utf-8') == "\r\n" or data.decode('utf-8') == "\n":
+            data = conn.recv(1024)
+        msgformethod = data.decode('utf-8')
+        message = data.decode('utf-8')
+        message = str(message)
+        message = message.split('"')
+
+        if message[0] == "TRANSLATELOC":
+            translateloc(msgformethod,conn)
+        elif message[0] == "TRANSLATEREM":
             try:
-                conn.send(dictionary[str[1]].encode('utf-8'))
-            except KeyError:
-                conn.send('TRANSLATEERR"not in this dictionary"'.encode("utf-8"))
-        if str[0] == "TRANSLATEREM":
-            try:
-                for i in range(1):
-                    ip = "10.2.3.226"
+                for i in range(256):
+                    ip = "192.168.1.%d", i
                     for port in range(65530, 65536):
                         try:
                             serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                             serv.connect((ip, port))
                             socket.setdefaulttimeout(0.01)
                             serv.recv(1024)
-                            serv.send(f'TRANSLATELOC"{str[1]}"'.encode('utf-8'))
+                            serv.send(f'TRANSLATELOC"{message[1]}"'.encode('utf-8'))
                             message = serv.recv(1024)
                             conn.send(message)
                             portsOpen.append(port)
@@ -44,7 +53,7 @@ def clinet(conn):
                             print(e)
                 serv.connect((ip,portsOpen[0]))
                 serv.recv(1024)
-                serv.send(f'TRANSLATELOC"{str[1]}"'.encode('utf-8'))
+                serv.send(f'TRANSLATELOC"{message[1]}"'.encode('utf-8'))
                 data = serv.recv(1024)
                 conn.send(data)
                 conn.send(message)
@@ -58,7 +67,7 @@ def clinet(conn):
 
 
 welcome_string = "Hey there!!!"
-ip = '10.2.3.225'
+ip = '192.168.1.110'
 port = 65532
 HEADER_LENGTH = 1024
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
