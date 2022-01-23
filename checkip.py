@@ -14,12 +14,11 @@ class Checkip:
     config = ConfigParser()
     config.read('info.conf')
 
-
-    a = [str(ip) for ip in ipaddress.IPv4Network(f"{config['IPINFO']['ip']}/{config['IPINFO']['mask']}")]
-
-
+    def ipranger(self):
+        a = [str(ip) for ip in ipaddress.IPv4Network(f"{self.config['IPINFO']['ip']}/{self.config['IPINFO']['mask']}")]
+        return  a
+    commands = Commands()
     ipport = []
-    iplist = a
     def checkipconnect(self,portstart,portend,i):
         for port in range(portstart, portend):
             try:
@@ -32,9 +31,9 @@ class Checkip:
                 serv.send('check'.encode())
                 message = serv.recv(1024)
                 if message.decode('utf-8') == 'hello':
-                    Commands.log("Hey look! I found it!")
-                    Commands.log(i + ":" + str(port))
+                    self.commands.log("Hey look! I found it!")
+                    self.commands.log(i + ":" + str(port))
                     self.ipport.append(i + ":" + str(port))
                     return
             except Exception as e:
-                Commands.log(str(e))
+                self.commands.log(str(e))

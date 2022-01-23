@@ -3,7 +3,7 @@ from socket import socket
 
 
 class Commands:
-    def log(message):
+    def log(self,message):
         with open('log.txt', 'a') as file:
             file.write(message + "\r\n")
             file.close()

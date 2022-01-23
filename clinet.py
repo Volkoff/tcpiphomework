@@ -6,16 +6,14 @@ from commands import Commands
 class Clinet:
     welcome_string = "Hey there!!!"
     threads = []
+    checkip = Checkip()
+    commands = Commands()
 
-    def log(message):
-        with open('log.txt','a') as file:
-            file.write(message + "\r\n")
-            file.close()
 
     def clinet(self,conn,address):
         global running
         running = True
-        Commands.log(f"Connection Established - {address[0]}:{address[1]}")
+        self.commands.log(f"Connection Established - {address[0]}:{address[1]}")
         conn.send(self.welcome_string.encode())
         while running:
             data = conn.recv(1024)
@@ -29,15 +27,15 @@ class Clinet:
                 message = str(message)
                 message = message.split('"')
             except Exception as e:
-                Commands.log(e)
+                self.commands.log(e)
             if message[0] == 'addrem':
                 conn.send("working... \r\n".encode('utf-8'))
-                for i in Checkip.ipranger():
-                    t = threading.Thread(target=Commands.Checkipconnect, args=(65530, 65536,i))
+                for i in self.checkip.ipranger():
+                    t = threading.Thread(target=self.checkip.checkipconnect, args=(65530, 65536,i))
                     Commands.threads.append(t)
-                for x in Commands.threads:
+                for x in self.commands.threads:
                     x.start()
-                for x in Commands.threads:
+                for x in self.commands.threads:
                     x.join()
                 conn.send("SUCCESFUL \r\n".encode('utf-8'))
             elif message[0] == 'check':
@@ -47,26 +45,26 @@ class Clinet:
             elif message[0] == "TRANSLATEREM":
                 try:
                     for i in range(len(Checkip.ipport)):
-                        ips = Checkip.ipport[i]
+                        ips = self.checkip.ipport[i]
                         ips = ips.split(":")
                         ip = ips[0]
                         port = ips[1]
                         port = int(port)
-                        t = threading.Thread(target=Commands.translaterem,args=(conn,message,ip,port))
-                        Commands.threads.append(t)
+                        t = threading.Thread(target=self.commands.translaterem,args=(conn,message,ip,port))
+                        self.commands.threads.append(t)
                         t.start()
                         t.join()
 
                 except Exception as e:
-                    Commands.log(str(e))
+                    self.commands.log(str(e))
             elif message[0] == "TRANSLATEANY":
-                for i in range(len(Checkip.ipport)):
-                    ips = Checkip.ipport[i]
+                for i in range(len(self.checkip.ipport)):
+                    ips = self.checkip.ipport[i]
                     ips = ips.split(":")
                     ip = ips[0]
                     port = ips[1]
                     port = int(port)
-                    Commands.translateany(conn, message, ip, port)
+                    self.commands.translateany(conn, message, ip, port)
             else:
                 conn.send("Wrong".encode('utf-8'))
-            Commands.log('received from client: %s' % data.decode("utf-8"))
+            self.commands.log('received from client: ' + data.decode("utf-8"))
