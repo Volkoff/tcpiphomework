@@ -1,3 +1,4 @@
+import ipaddress
 import socket
 import threading
 
@@ -8,11 +9,17 @@ dictionary = {
     "table" : "stul",
     "phone" : "mobil"
 }
-
+iprange ='192.168.1.100-192.168.1.110'
 def log(message):
     with open('log.txt','a') as file:
         file.write(message + "\r\n")
         file.close()
+
+
+def ipranger():
+    a = [str(ip) for ip in ipaddress.IPv4Network('192.168.1.0/24')]
+    return a
+
 
 def translateloc(message, conn):
     try:
@@ -21,27 +28,32 @@ def translateloc(message, conn):
         conn.send('TRANSLATEERR"not in this dictionary"\r\n'.encode("utf-8"))
 portsOpen = []
 ipport = []
+def translateany(message,conn,ip,port):
+    try:
+        translateloc(message,conn)
+    except:
+        translaterem(conn,message,ip,port)
 
 
-def checkipconnect(portstart,portend,a):
-    #for i in range(a):
-        ip = "192.168.1.107"
-        print(ip)
-        for port in range(portstart, portend):
-            try:
-
-                serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                serv.settimeout(3)
-                serv.connect((ip, port))
-                serv.recv(1024)
-                serv.send('check'.encode())
-                message = serv.recv(1024)
-                if message.decode('utf-8') == 'hello':
-                    log("Hey look! I found it!")
-                    log(ip + ":" + str(port))
-                    ipport.append(ip + ":" + str(port))
-            except Exception as e:
-                log(str(e))
+iplist = ipranger()
+def checkipconnect(portstart,portend,i):
+    for port in range(portstart, portend):
+        try:
+            if i == '192.168.1.110':
+                return
+            serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            serv.settimeout(3)
+            serv.connect((i, port))
+            serv.recv(1024)
+            serv.send('check'.encode())
+            message = serv.recv(1024)
+            if message.decode('utf-8') == 'hello':
+                log("Hey look! I found it!")
+                log(ip + ":" + str(port))
+                ipport.append(i + ":" + str(port))
+                return
+        except Exception as e:
+            log(str(e))
 
 
 def translaterem(conn,message,ip,port):
@@ -77,7 +89,13 @@ def clinet(conn):
             log(e)
         if message[0] == 'addrem':
             conn.send("working... \r\n".encode('utf-8'))
-            checkipconnect(65530,65536,2)
+            for i in ipranger():
+                t = threading.Thread(target=checkipconnect, args=(65530, 65536,i))
+                threads.append(t)
+            for x in threads:
+                x.start()
+            for x in threads:
+                x.join()
             conn.send("SUCCESFUL \r\n".encode('utf-8'))
         elif message[0] == 'check':
             conn.send("hello".encode())
@@ -93,16 +111,22 @@ def clinet(conn):
                     port = int(port)
                     t = threading.Thread(target=translaterem,args=(conn,message,ip,port))
                     threads.append(t)
-                    for x in threads:
-                        x.start()
+                    t.start()
+                    t.join()
 
-                    for x in threads:
-                        x.join()
-
-                    for x in threads:
-                        x.exit()
             except Exception as e:
                 log(str(e))
+        elif message[0] == "TRANSLATEANY":
+            for i in range(len(ipport)):
+                ips = ipport[i]
+                ips = ips.split(":")
+                ip = ips[0]
+                port = ips[1]
+                port = int(port)
+                t = threading.Thread(target=translateany, args=(conn, message, ip, port))
+                threads.append(t)
+                t.start()
+                t.join()
         else:
             conn.send("Wrong".encode('utf-8'))
         log('received from client: %s' % data.decode("utf-8"))
