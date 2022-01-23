@@ -54,14 +54,9 @@ def checkipconnect(portstart,portend,i):
             serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             serv.settimeout(3)
             serv.connect((i, port))
-            serv.recv(1024)
-            serv.send('check'.encode())
-            message = serv.recv(1024)
-            if message.decode('utf-8') == 'hello':
-                log("Hey look! I found it!")
-                log(ip + ":" + str(port))
-                ipport.append(i + ":" + str(port))
-                return
+            log("Hey look! I found it!")
+            log(ip + ":" + str(port))
+            ipport.append(i + ":" + str(port))
         except Exception as e:
             log(str(e))
 
@@ -71,7 +66,7 @@ def translaterem(conn,message,ip,port):
         serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         serv.connect((ip, port))
         serv.recv(1024)
-        serv.send(f'TRANSLATELOC"{message[1]}"'.encode('utf-8'))
+        serv.send(f'TRANSLATELOC"{message}"'.encode('utf-8'))
         data = serv.recv(1024)
         conn.send(data)
         serv.close()
@@ -101,7 +96,7 @@ def clinet(conn):
             log(e)
         if message[0] == 'addrem':
             conn.send("working... \r\n".encode('utf-8'))
-            for i in ipranger():
+            for i in iplist:
                 t = threading.Thread(target=checkipconnect, args=(65530, 65536,i))
                 threads.append(t)
             for x in threads:
@@ -121,7 +116,7 @@ def clinet(conn):
                     ip = ips[0]
                     port = ips[1]
                     port = int(port)
-                    t = threading.Thread(target=translaterem,args=(conn,message,ip,port))
+                    t = threading.Thread(target=translaterem,args=(conn,message[1],ip,port))
                     threads.append(t)
                     t.start()
                     t.join()
