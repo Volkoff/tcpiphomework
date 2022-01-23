@@ -32,11 +32,17 @@ def translateloc(message, conn):
         conn.send('TRANSLATEERR"not in this dictionary"\r\n'.encode("utf-8"))
 portsOpen = []
 ipport = []
-def translateany(message,conn,ip,port):
-    try:
-        translateloc(message,conn)
-    except:
-        translaterem(conn,message,ip,port)
+
+
+def translateany(conn,message,ip,port):
+    if message[1] in dictionary:
+        translateloc(message[1],conn)
+    else:
+        for i in range(len(ipport)):
+            t = threading.Thread(target=translaterem, args=(conn, message, ip, port))
+            threads.append(t)
+            t.start()
+            t.join()
 
 
 iplist = ipranger()
@@ -71,6 +77,8 @@ def translaterem(conn,message,ip,port):
         serv.close()
     except Exception as e:
         log(str(e))
+
+
 
 threads = []
 def clinet(conn):
@@ -127,10 +135,7 @@ def clinet(conn):
                 ip = ips[0]
                 port = ips[1]
                 port = int(port)
-                t = threading.Thread(target=translateany, args=(conn, message, ip, port))
-                threads.append(t)
-                t.start()
-                t.join()
+                translateany(conn, message, ip, port)
         else:
             conn.send("Wrong".encode('utf-8'))
         log('received from client: %s' % data.decode("utf-8"))
