@@ -1,6 +1,8 @@
+import configparser
 import ipaddress
 import socket
 import threading
+from configparser import ConfigParser
 
 dictionary = {
     "dog" : "pes",
@@ -9,7 +11,9 @@ dictionary = {
     "table" : "stul",
     "phone" : "mobil"
 }
-iprange ='192.168.1.100-192.168.1.110'
+
+config = ConfigParser()
+config.read('info.conf')
 def log(message):
     with open('log.txt','a') as file:
         file.write(message + "\r\n")
@@ -17,7 +21,7 @@ def log(message):
 
 
 def ipranger():
-    a = [str(ip) for ip in ipaddress.IPv4Network('192.168.1.0/24')]
+    a = [str(ip) for ip in ipaddress.IPv4Network(f"{config['IPINFO']['ip']}/{config['IPINFO']['mask']}")]
     return a
 
 
